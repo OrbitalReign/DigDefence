@@ -73,9 +73,11 @@ void Game::UpdateModel()
 			}
 	xlines0.Zoom(z);
 	xlines0.MoveMesh(x , y);
+	Peon0.CubeZoom(z);
 }
 
 void Game::ComposeFrame()
 {
 	xlines0.Draw(gfx);
+	Peon0.Draw(gfx);
 }

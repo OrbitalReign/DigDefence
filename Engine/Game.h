@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "GroundMesh.h"
+#include "CubePeon.h"
 
 class Game
 {
@@ -44,6 +45,7 @@ private:
 	/********************************/
 	/*  User Variables              */ 
 	GroundMesh xlines0;
+	CubePeon Peon0;
 	int x = 0;
 	int y = 0;
 	int z = 0;

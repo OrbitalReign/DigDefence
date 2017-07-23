@@ -54,6 +54,9 @@
     <ClInclude Include="GroundMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CubePeon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GroundMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CubePeon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
