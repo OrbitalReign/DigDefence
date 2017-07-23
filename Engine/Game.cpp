@@ -41,11 +41,11 @@ void Game::UpdateModel()
 {
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y -= 1;
+		y -= 5;
 	}
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		y += 1;
+		y += 5;
 	}
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
@@ -72,7 +72,7 @@ void Game::UpdateModel()
 				z = 20;
 			}
 	xlines0.Zoom(z);
-	xlines0.MoveMesh(x);
+	xlines0.MoveMesh(x , y);
 }
 
 void Game::ComposeFrame()
