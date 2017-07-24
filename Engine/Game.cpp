@@ -39,6 +39,23 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.kbd.KeyIsPressed('W'))
+	{
+		y2 += 2;
+	}
+	if (wnd.kbd.KeyIsPressed('S'))
+	{
+		y2 -= 2;
+	}
+	if (wnd.kbd.KeyIsPressed('A'))
+	{
+		x2 += 2;
+	}
+	if (wnd.kbd.KeyIsPressed('D'))
+	{
+		x2 -= 2;
+	}
+
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
 		y -= 5;
@@ -46,14 +63,17 @@ void Game::UpdateModel()
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
 		y += 5;
+
 	}
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
 		x -= 3;
+
 	}
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
 		x += 3;
+
 	}
 		if (wnd.kbd.KeyIsPressed('Z'))
 		{
@@ -67,17 +87,21 @@ void Game::UpdateModel()
 			{
 				z = 50;
 			}
-			else if (z < 20)
+			else if (z < 10)
 			{
-				z = 20;
+				z = 10;
 			}
+				
 	xlines0.Zoom(z);
 	xlines0.MoveMesh(x , y);
 	Peon0.CubeZoom(z);
+	Peon0.Location(x2, y2);
+	
 }
 
 void Game::ComposeFrame()
 {
 	xlines0.Draw(gfx);
 	Peon0.Draw(gfx);
+	gfx.PutPixel( (Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4), Colors::Green ); // Zoom centre
 }

@@ -3,7 +3,7 @@
 
 void GroundMesh::Draw(Graphics& gfx)
 { 
-	Color c(50 + Top_Mesh_Spacing, 50 + Top_Mesh_Spacing, 50 + Top_Mesh_Spacing);  // Darkens ground mesh as you zoom out so its not so washed out.
+	Color c(30 + Top_Mesh_Spacing, 30 + Top_Mesh_Spacing, 30 + Top_Mesh_Spacing);  // Darkens ground mesh as you zoom out so its not so washed out.
     																				   
     // lines from top of screen to bottom right
 
@@ -106,6 +106,7 @@ void GroundMesh::Draw(Graphics& gfx)
 void GroundMesh::Zoom(int z)
 {
 	Top_Mesh_Spacing = z;            // zoomes mesh in and out linked to a zoom key
+	Side_Mesh_Spacing = Top_Mesh_Spacing / 2;
 }
 
 void GroundMesh::MoveMesh(int x, int y)
@@ -149,7 +150,7 @@ void GroundMesh::MoveMesh(int x, int y)
 		Scroll_y = Top_Mesh_Spacing;  // handles looping the mesh to apear like its moving ( down )
 	}  
 
-	Side_Mesh_Spacing = Top_Mesh_Spacing / 2;
+	
 	temp_x = x;
 	temp_y = y;
 }

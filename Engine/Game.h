@@ -46,8 +46,10 @@ private:
 	/*  User Variables              */ 
 	GroundMesh xlines0;
 	CubePeon Peon0;
-	int x = 0;
-	int y = 0;
+	int x = 200;
+	int y = 200;
+	int x2 = 100;
+	int y2 = 100;
 	int z = 0;
 	/********************************/
 };
