@@ -41,28 +41,30 @@ void Game::UpdateModel()
 {
 	if (wnd.kbd.KeyIsPressed('W'))
 	{
-		y2 += 2;
+		y2 -= 10;
 	}
 	if (wnd.kbd.KeyIsPressed('S'))
 	{
-		y2 -= 2;
+		y2 += 10;
 	}
 	if (wnd.kbd.KeyIsPressed('A'))
 	{
-		x2 += 2;
+		x2 -= 10;
 	}
 	if (wnd.kbd.KeyIsPressed('D'))
 	{
-		x2 -= 2;
+		x2 += 10;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
 		y -= 5;
+	
 	}
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
 		y += 5;
+
 
 	}
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
@@ -85,17 +87,21 @@ void Game::UpdateModel()
 		}
 				if (z > 50)
 			{
-				z = 50;
+				z = 50;   // stops zooming in too far
 			}
 			else if (z < 10)
 			{
-				z = 10;
+				z = 10;    // stops zooming out too far
 			}
-				
+			
+    Zoom_Frame.Frame_Set(x, y, z);
 	xlines0.Zoom(z);
 	xlines0.MoveMesh(x , y);
+
+	Peon0.Location(x2, y2  , Zoom_Frame.Get_Left(), Zoom_Frame.Get_Top());
+	Peon0.Screen_Size( Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 	Peon0.CubeZoom(z);
-	Peon0.Location(x2, y2);
+	
 	
 }
 

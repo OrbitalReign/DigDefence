@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "GroundMesh.h"
 #include "CubePeon.h"
+#include "Frame.h"
 
 class Game
 {
@@ -43,13 +44,17 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
-	/*  User Variables              */ 
+	/*  User Variables */
+	Frame Zoom_Frame;             
 	GroundMesh xlines0;
 	CubePeon Peon0;
-	int x = 200;
-	int y = 200;
-	int x2 = 100;
-	int y2 = 100;
-	int z = 0;
+
+
+	
+	int x = 10000;
+	int y = 10000;
+	int x2 = 10000;
+	int y2 = 10000;
+	int z = 10;
 	/********************************/
 };
