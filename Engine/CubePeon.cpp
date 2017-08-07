@@ -70,8 +70,6 @@ void CubePeon::CubeZoom(int z)
 {
 	  Zoom = z;
 	  temp_Zoom = ( 50 / Zoom);
-	//  On_Screen_x /= temp_Zoom;
-//	  On_Screen_y /= temp_Zoom;
 
 	if (True_x < Zoom_Focal_x  )                                               // zooms cube with mesh in x dim
 	{
@@ -107,7 +105,7 @@ void CubePeon::CubeZoom(int z)
 	Top_Bottom_y = Zoom / 4;
 } 
 
-void CubePeon::Location(int x2 , int y2 , int Left , int Top )
+void CubePeon::Location(int x2 , int y2)
 {
 
 	True_x = x2;  // gets cubes actual location
@@ -121,6 +119,7 @@ void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
 	In_Frame_y = (True_y - 40  > Top && True_y + 20  < Bottom);   // checks true y is in frame
 	Zoom_Focal_x = Left + ((Right - Left) / 2); // gets 1/2
 	Zoom_Focal_y = Top + ((Bottom - Top) / 3) ;  // gets top 1/3
+
 	Edge_Left  = Left;
 	Edge_Right = Right;
 	Edge_Top = Top;

@@ -8,7 +8,7 @@ class CubePeon
 public:
 	void Draw(Graphics& gfx);
 	void CubeZoom(int z);
-	void Location(int x2, int y2 , int Left , int Top );
+	void Location(int x2, int y2);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
 	
 private:

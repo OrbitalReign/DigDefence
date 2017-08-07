@@ -3,18 +3,15 @@
 
 void GroundMesh::Draw(Graphics& gfx)
 { 
-	Color c(30 + Top_Mesh_Spacing, 30 + Top_Mesh_Spacing, 30 + Top_Mesh_Spacing);  // Darkens ground mesh as you zoom out so its not so washed out.
+	Color c(30 + ZoomRate, 30 + ZoomRate, 30 + ZoomRate);  // Darkens ground mesh as you zoom out so its not so washed out.
     																				   
     // lines from top of screen to bottom right
 
-	for (int i = Top_Mesh_Spacing - Scroll_x - Scroll_y ; i < Graphics::ScreenWidth; i += Top_Mesh_Spacing)     
+	for (int i = LeftTop; i < Graphics::ScreenWidth; i += ZoomRate)
 	{
 		for (x = i; x < Graphics::ScreenWidth; x++)   // loops line printing
 		{
-			if (x < Graphics::ScreenWidth &&    // only prints in screen boundries .
-				x > 0 &&
-				y < Graphics::ScreenHeight &&
-				y > 0)
+			if (y < Graphics::ScreenHeight && y > 0)   // only prints in screen boundries .	
 			{
 				gfx.PutPixel(x, y, c);     
 			}
@@ -30,15 +27,12 @@ void GroundMesh::Draw(Graphics& gfx)
 	
 	// lines from left of screen to bottom right
 
-	for (int i = (Scroll_x / 2) + ( Scroll_y / 2 );  i < Graphics::ScreenHeight; i += Side_Mesh_Spacing)    
+	for (int i = LeftSide;  i < Graphics::ScreenHeight; i += (ZoomRate / 2))
 	{
 		y += i;
 		for (x = 0; x < Graphics::ScreenWidth; x++)  // loops line printing
 		{
-			if (x < Graphics::ScreenWidth &&    // only prints in screen boundries 
-				x > 0 &&
-				y < Graphics::ScreenHeight &&
-				y > 0)
+			if (y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 	
 			{
 				gfx.PutPixel(x, y, c);     
 			}
@@ -55,14 +49,11 @@ void GroundMesh::Draw(Graphics& gfx)
 
     // lines from top of screen to bottom left
 
-	for (int i = Graphics::ScreenWidth - Scroll_x + Scroll_y; i > 0 ; i -= Top_Mesh_Spacing)   
+	for (int i = RightTop; i > 0 ; i -= ZoomRate)
 	{
 		for (x = i; x > 0 ; x--)   // loops line printing
 		{
-			if (x < Graphics::ScreenWidth &&    // only prints in screen boundries 
-				x > 0 &&
-				y < Graphics::ScreenHeight &&
-				y > 0)
+			if (y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 				
 			{
 				gfx.PutPixel(x, y, c);     
 			}
@@ -78,15 +69,12 @@ void GroundMesh::Draw(Graphics& gfx)
 	
 	// lines form right of screen to bottom left
 
-	for (int i = Side_Mesh_Spacing - ( Scroll_x / 2 ) + ( Scroll_y / 2 ) ; i < Graphics::ScreenHeight ; i += Side_Mesh_Spacing)  
+	for (int i = RightSide ; i < Graphics::ScreenHeight ; i += (ZoomRate / 2))
 	{
 		y += i;
-		for (x = Graphics::ScreenWidth; x > 0; x--)   // loops line printing
+		for (x = Graphics::ScreenWidth - 1; x > 0; x--)   // loops line printing
 		{
-			if (x < Graphics::ScreenWidth &&    // only prints in screen boundries 
-				x > 0 &&
-				y < Graphics::ScreenHeight &&
-				y > 0)
+			if ( y < Graphics::ScreenHeight && y > 0)                                             // only prints in screen boundries 				  
 			{
 				gfx.PutPixel(x, y, c);    
 			}
@@ -103,54 +91,36 @@ void GroundMesh::Draw(Graphics& gfx)
 	
 }
 
-void GroundMesh::Zoom(int z)
+void GroundMesh::ZoomMesh(int z)
 {
-	Top_Mesh_Spacing = z;            // zoomes mesh in and out linked to a zoom key
+	ZoomRateDiv = 50 / z;
+	ZoomRate = z;
+	Top_Mesh_Spacing = 50;            // zoomes mesh in and out linked to a zoom key
 	Side_Mesh_Spacing = Top_Mesh_Spacing / 2;
 }
 
-void GroundMesh::MoveMesh(int x, int y)
+void GroundMesh::MoveMesh(int Left, int Right, int Top, int Bottom)
 {
 
-	if ( x > temp_x)  // moving right
-	{
-		Scroll_x += 3;
-	}	
-	else if (x < temp_x)   // moving left
-	{
-		Scroll_x -= 3;
-	}
-
-	if (y > temp_y)  // moving Up
-	{
-		Scroll_y -= 5;
-	}
-	else if (y < temp_y)   // moving Down
-	{
-		Scroll_y += 5;
-	}
 	
+	float temp_xL = (Left % Top_Mesh_Spacing);
+	float temp_xR = Top_Mesh_Spacing - (Right % Top_Mesh_Spacing);
+	float temp_yL = (Top % Side_Mesh_Spacing);
+	float temp_yR = (Top % Side_Mesh_Spacing);
+// Left side Mesh 
+	 LeftSide = ((temp_xL / 2) - temp_yL) / ZoomRateDiv;
+	 if (LeftSide < 0)  // handles if left side aka  side mesh 'y' is above screen and sets it inside screen.
+	 {
+		 LeftSide = Side_Mesh_Spacing + LeftSide;
+	 }
+	 LeftTop = (Top_Mesh_Spacing - (LeftSide * 2) / ZoomRateDiv); // sets top mesh 'x' from left side of screen.
 
-	// stops Scroll x and y form going to 50 quadzilion though works without it  .
-	if (Scroll_x > Top_Mesh_Spacing)  // handles looping the mesh to apear like its moving ( left  )
-	{
-		Scroll_x = 0;
-	}
-	else if (Scroll_x < 0)
-	{
-		Scroll_x = Top_Mesh_Spacing;  // handles looping the mesh to apear like its moving ( right )
-	}
+	 // Right side mesh
+	 RightSide = ((temp_xR / 2) - temp_yR) / ZoomRateDiv;
+	 if (RightSide < 0)  // handles if right side aka  side mesh 'y' is above screen and sets it inside screen.
+	 {
+		 RightSide = Side_Mesh_Spacing + RightSide;
+	 }
+	 RightTop = Graphics::ScreenWidth - ((Top_Mesh_Spacing - (RightSide * 2)) / ZoomRateDiv);  // sets top mesh 'x' from right side of screen.
 
-	if (Scroll_y > Top_Mesh_Spacing)  // handles looping the mesh to apear like its moving ( up  )
-	{
-		Scroll_y = 0;
-	}
-	else if (Scroll_y < 0)
-	{
-		Scroll_y = Top_Mesh_Spacing;  // handles looping the mesh to apear like its moving ( down )
-	}  
-
-	
-	temp_x = x;
-	temp_y = y;
 }
