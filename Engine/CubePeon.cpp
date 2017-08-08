@@ -28,7 +28,7 @@ void CubePeon::Draw(Graphics & gfx)
 
 		}
 
-		// top and bottom diagonals
+	/*	// top and bottom diagonals
 		for (int i = 0; i < Zoom; i++)
 		{
 			y_Step++;
@@ -62,7 +62,7 @@ void CubePeon::Draw(Graphics & gfx)
 		}
 		Change_Draw_Direction = false;
 		y2 = 0;  // temp stuff
-		y3 = 0;   // temp stuff
+		y3 = 0;   // temp stuff*/
 	}
 }
 
@@ -71,30 +71,30 @@ void CubePeon::CubeZoom(float z)
 	  Zoom = z;
 	  temp_Zoom = ( 50 / Zoom);
 
-	if (True_x < Zoom_Focal_x)            // zooms cube with mesh in x dim
+	if (True_x < Frame::Focal_Point_x)            // zooms cube with mesh in x dim
 	{
 		On_Screen_x = float(True_x - Edge_Left);
 		Draw_x =int((On_Screen_x / temp_Zoom)); 
 	}
-	else if (True_x > Zoom_Focal_x)
+	else if (True_x > Frame::Focal_Point_x)
 	{
 		On_Screen_x = float(Edge_Right - True_x);
-			Draw_x = int(800 - (On_Screen_x / temp_Zoom));
+			Draw_x = int(Graphics::ScreenWidth - (On_Screen_x / temp_Zoom));
 	}
 	else 
 	{
 		Draw_x = 400;
 	}
 
-	if (True_y < Zoom_Focal_y)         // zooms cube with mesh in y dim
+	if (True_y < Frame::Focal_Point_y)         // zooms cube with mesh in y dim
 	{
 		On_Screen_y = float(True_y - Edge_Top);
 		Draw_y = int( (On_Screen_y / temp_Zoom));
 	}
-	else if (True_y > Zoom_Focal_y)
+	else if (True_y > Frame::Focal_Point_y)
 	{
 		On_Screen_y = float(Edge_Bottom - True_y);
-		Draw_y = int(600 - (On_Screen_y / temp_Zoom));
+		Draw_y = int(Graphics::ScreenHeight - (On_Screen_y / temp_Zoom));
 	}
 	else 
 	{
@@ -117,8 +117,6 @@ void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
 	//  gets the zoomed screen boundary
 	In_Frame_x = (True_x - 10 > Left && True_x + 60  < Right);   // checks true x is in frame
 	In_Frame_y = (True_y - 40  > Top && True_y + 20  < Bottom);   // checks true y is in frame
-	Zoom_Focal_x = Left + ((Right - Left) / 2); // gets 1/2
-	Zoom_Focal_y = Top + ((Bottom - Top) / 3) ;  // gets top 1/3
 
 	Edge_Left  = Left;
 	Edge_Right = Right;

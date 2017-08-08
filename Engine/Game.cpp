@@ -41,49 +41,49 @@ void Game::UpdateModel()
 {
 	if (wnd.kbd.KeyIsPressed('W'))
 	{
-		y2 -= 10;
+		y2 -= 2;
 	}
 	if (wnd.kbd.KeyIsPressed('S'))
 	{
-		y2 += 10;
+		y2 += 2;
 	}
 	if (wnd.kbd.KeyIsPressed('A'))
 	{
-		x2 -= 10;
+		x2 -= 2;
 	}
 	if (wnd.kbd.KeyIsPressed('D'))
 	{
-		x2 += 10;
+		x2 += 2;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y -= 5;
+		y -= 10;
 	
 	}
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		y += 5;
+		y += 10;
 
 
 	}
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		x -= 3;
+		x -= 10;
 
 	}
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		x += 3;
+		x += 10;
 
 	}
 		if (wnd.kbd.KeyIsPressed('Z'))
 		{
-			z += 1;
+			z += .1;
 		}
 		if (wnd.kbd.KeyIsPressed('X'))
 		{
-			z -= 1;
+			z -= .1;
 		}
 				if (z > 50)
 			{

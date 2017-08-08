@@ -12,7 +12,7 @@ public:
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
 	
 private:
-	int True_x = 50;
+	int True_x = 50; //makes sure its set in screen
 	int True_y = 50;
 	float On_Screen_x = 0;
 	float On_Screen_y = 0;
@@ -25,10 +25,9 @@ private:
 	int Top_Bottom_y = 0;
 	int y_Step = 0;
 
-	int Zoom_Focal_x = 0;
-	int Zoom_Focal_y = 0;
 	float Zoom = 0;
 	float temp_Zoom = 0;
+
 	bool Change_Draw_Direction = false;
 	bool In_Frame_x = false;
 	bool In_Frame_y = false;
