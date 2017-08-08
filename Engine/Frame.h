@@ -6,7 +6,7 @@ class Frame
 {
 public:
      void Frame_Set(int x, int y , int z);
-	 int Get_Left();
+	 int Get_Left(); 
 	 int Get_Right();
 	 int Get_Top();
 	 int Get_Bottom();

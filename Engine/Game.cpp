@@ -79,11 +79,11 @@ void Game::UpdateModel()
 	}
 		if (wnd.kbd.KeyIsPressed('Z'))
 		{
-			z += .2;
+			z += 1;
 		}
 		if (wnd.kbd.KeyIsPressed('X'))
 		{
-			z -= .2;
+			z -= 1;
 		}
 				if (z > 50)
 			{

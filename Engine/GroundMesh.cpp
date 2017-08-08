@@ -3,7 +3,7 @@
 
 void GroundMesh::Draw(Graphics& gfx)
 { 
-	Color c(30 + ZoomRate, 30 + ZoomRate, 30 + ZoomRate);  // Darkens ground mesh as you zoom out so its not so washed out.
+	Color c(5 + ZoomRate * 2, 5 + ZoomRate * 2, 5 + ZoomRate * 2);  // Darkens ground mesh as you zoom out so its not so washed out.
     																				   
     // lines from top of screen to bottom right
 
@@ -91,7 +91,7 @@ void GroundMesh::Draw(Graphics& gfx)
 	
 }
 
-void GroundMesh::ZoomMesh(int z)
+void GroundMesh::ZoomMesh(float z)
 {
 	ZoomRateDiv = 50 / z;
 	ZoomRate = z;
@@ -104,23 +104,27 @@ void GroundMesh::MoveMesh(int Left, int Right, int Top, int Bottom)
 
 	
 	float temp_xL = (Left % Top_Mesh_Spacing);
-	float temp_xR = Top_Mesh_Spacing - (Right % Top_Mesh_Spacing);
-	float temp_yL = (Top % Side_Mesh_Spacing);
-	float temp_yR = (Top % Side_Mesh_Spacing);
+	float temp_xR = Top_Mesh_Spacing - (Right % Top_Mesh_Spacing);     // divides screen boundry by the mesh spacing 
+	float temp_yLR = (Top % Side_Mesh_Spacing);                          //and finds the remainder that should show on screen.
+	
 // Left side Mesh 
-	 LeftSide = ((temp_xL / 2) - temp_yL) / ZoomRateDiv;
+	 LeftSide = ((temp_xL / 2) - temp_yLR);
 	 if (LeftSide < 0)  // handles if left side aka  side mesh 'y' is above screen and sets it inside screen.
 	 {
 		 LeftSide = Side_Mesh_Spacing + LeftSide;
 	 }
-	 LeftTop = (Top_Mesh_Spacing - (LeftSide * 2) / ZoomRateDiv); // sets top mesh 'x' from left side of screen.
+	 LeftTop = (Top_Mesh_Spacing - (LeftSide * 2)); // sets top mesh 'x' from left side of screen.
 
 	 // Right side mesh
-	 RightSide = ((temp_xR / 2) - temp_yR) / ZoomRateDiv;
+	 RightSide = ((temp_xR / 2) - temp_yLR);
 	 if (RightSide < 0)  // handles if right side aka  side mesh 'y' is above screen and sets it inside screen.
 	 {
 		 RightSide = Side_Mesh_Spacing + RightSide;
 	 }
-	 RightTop = Graphics::ScreenWidth - ((Top_Mesh_Spacing - (RightSide * 2)) / ZoomRateDiv);  // sets top mesh 'x' from right side of screen.
+	 RightTop = (Top_Mesh_Spacing - (RightSide * 2));  // sets top mesh 'x' from right side of screen.
 
+	 RightTop = Graphics::ScreenWidth - (RightTop / ZoomRateDiv);
+	 LeftTop /= ZoomRateDiv;
+	 RightSide /= ZoomRateDiv;
+	 LeftSide /= ZoomRateDiv;
 }

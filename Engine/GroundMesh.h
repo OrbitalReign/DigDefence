@@ -5,7 +5,7 @@ class GroundMesh
 {
 public:
       void Draw(Graphics& gfx);
-	  void ZoomMesh(int z);
+	  void ZoomMesh(float z);
 	  void MoveMesh(int Left, int Right, int Top, int Bottom);
 private:
 	int x = 10 ;
@@ -14,10 +14,9 @@ private:
     int Top_Mesh_Spacing = 50;
 	int Side_Mesh_Spacing = 0;
 	int Mesh_Angle = 2;
-	int Scroll_x = 0;
-	int Scroll_y = 0;
+
 	float ZoomRateDiv;
-	float ZoomRate;
+	int ZoomRate;
 
 	float LeftTop;
 	float LeftSide;    // left side start diagonals
