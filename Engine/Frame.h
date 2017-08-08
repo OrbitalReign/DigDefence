@@ -5,7 +5,7 @@
 class Frame
 {
 public:
-     void Frame_Set(int x, int y , int z);
+     void Frame_Set(int x, int y , float z);
 	 int Get_Left(); 
 	 int Get_Right();
 	 int Get_Top();

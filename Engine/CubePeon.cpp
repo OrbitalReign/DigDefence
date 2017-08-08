@@ -4,7 +4,7 @@ void CubePeon::Draw(Graphics & gfx)
 {
 	if (In_Frame_x && In_Frame_y)   // Draws if in frame
 	{
-		Color c(0, 100 + (Zoom * 2), 0);
+		Color c(0, 100 + int(Zoom), 0);  // add fading
 
 
 		for (int i = 0; i < Top_Bottom_x; i++)
@@ -14,7 +14,7 @@ void CubePeon::Draw(Graphics & gfx)
 		}
 		for (int i = 0; i < Top_Bottom_x; i++)
 		{
-			gfx.PutPixel(Draw_x + Zoom, Draw_y - i, c);  // right pillar
+			gfx.PutPixel(Draw_x + int(Zoom), Draw_y - i, c);  // right pillar
 
 		}
 		for (int i = 0; i < Top_Bottom_x; i++)
@@ -66,43 +66,43 @@ void CubePeon::Draw(Graphics & gfx)
 	}
 }
 
-void CubePeon::CubeZoom(int z)
+void CubePeon::CubeZoom(float z)
 {
 	  Zoom = z;
 	  temp_Zoom = ( 50 / Zoom);
 
-	if (True_x < Zoom_Focal_x  )                                               // zooms cube with mesh in x dim
+	if (True_x < Zoom_Focal_x)            // zooms cube with mesh in x dim
 	{
-		On_Screen_x = True_x - Edge_Left;
-		Draw_x = static_cast<int>((On_Screen_x / temp_Zoom)); 
+		On_Screen_x = float(True_x - Edge_Left);
+		Draw_x =int((On_Screen_x / temp_Zoom)); 
 	}
 	else if (True_x > Zoom_Focal_x)
 	{
-		On_Screen_x = Edge_Right - True_x;
-			Draw_x = static_cast<int>(800 - (On_Screen_x / temp_Zoom));
+		On_Screen_x = float(Edge_Right - True_x);
+			Draw_x = int(800 - (On_Screen_x / temp_Zoom));
 	}
 	else 
 	{
 		Draw_x = 400;
 	}
 
-	if (True_y < Zoom_Focal_y)                                                // zooms cube with mesh in y dim
+	if (True_y < Zoom_Focal_y)         // zooms cube with mesh in y dim
 	{
-		On_Screen_y = True_y - Edge_Top;
-		Draw_y = static_cast<int> ( (On_Screen_y / temp_Zoom));
+		On_Screen_y = float(True_y - Edge_Top);
+		Draw_y = int( (On_Screen_y / temp_Zoom));
 	}
 	else if (True_y > Zoom_Focal_y)
 	{
-		On_Screen_y = Edge_Bottom - True_y;
-		Draw_y = static_cast<int>(600 - (On_Screen_y / temp_Zoom));
+		On_Screen_y = float(Edge_Bottom - True_y);
+		Draw_y = int(600 - (On_Screen_y / temp_Zoom));
 	}
 	else 
 	{
 		Draw_y = 200;
 	}
 	
-	Top_Bottom_x = Zoom / 2;
-	Top_Bottom_y = Zoom / 4;
+	Top_Bottom_x = int(Zoom / 2);
+	Top_Bottom_y = int(Zoom / 4);
 } 
 
 void CubePeon::Location(int x2 , int y2)

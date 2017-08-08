@@ -7,7 +7,7 @@ class CubePeon
 {
 public:
 	void Draw(Graphics& gfx);
-	void CubeZoom(int z);
+	void CubeZoom(float z);
 	void Location(int x2, int y2);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
 	
