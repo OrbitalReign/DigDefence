@@ -28,7 +28,7 @@ void CubePeon::Draw(Graphics & gfx)
 
 		}
 
-	/*	// top and bottom diagonals
+		// top and bottom diagonals
 		for (int i = 0; i < Zoom; i++)
 		{
 			y_Step++;
@@ -62,7 +62,7 @@ void CubePeon::Draw(Graphics & gfx)
 		}
 		Change_Draw_Direction = false;
 		y2 = 0;  // temp stuff
-		y3 = 0;   // temp stuff*/
+		y3 = 0;   // temp stuff
 	}
 }
 
