@@ -1,6 +1,8 @@
 #pragma once
 #include "Graphics.h"
 #include "Frame.h"
+#include <math.h>
+#define PI 3.1415926536
 
 
 class CubePeon
@@ -10,25 +12,29 @@ public:
 	void CubeZoom(float z);
 	void Location(int x2, int y2);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
-	
+	void Rotate(int Turn);
 private:
 	int True_x = 50; //makes sure its set in screen
 	int True_y = 50;
 	float On_Screen_x = 0;
 	float On_Screen_y = 0;
-	int Draw_x = 0;
-	int Draw_y = 0;
+	float Draw_x = 0;
+	float Draw_y = 0;
 
-	int y2 = 0;  //temp name
-	int y3 = 0;  //temp name
-	int Top_Bottom_x = 0;
-	int Top_Bottom_y = 0;
-	int y_Step = 0;
+	double Deg;  // degrees 
+	float CubeWidth = 25; // sets cube size from its centre to corners
+	float CubeHeight = 50;  // sets height of cube
+	int ZoomCubeHeight;
+	float Hypot; // hypotenuse 
+	float New_x;
+	float New_y;
+	double Deg2;
+	float New_x2;
+	float New_y2;
 
 	float Zoom = 0;
-	float temp_Zoom = 0;
+	float ZoomRate = 0;
 
-	bool Change_Draw_Direction = false;
 	bool In_Frame_x = false;
 	bool In_Frame_y = false;
 
