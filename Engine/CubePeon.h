@@ -10,13 +10,13 @@ class CubePeon
 public:
 	void Draw(Graphics& gfx);
 	void CubeZoom(float z);
-	void Location(int x2, int y2);
+	void SpeedIn(int speed);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
 	void Rotate(int Turn);
 	void Lines();
 private:
-	int True_x = 50; //makes sure its set in screen
-	int True_y = 50;
+	float True_x = 10000; //makes sure its set in screen
+	float True_y = 10000;
 	float On_Screen_x = 0.0f;
 	float On_Screen_y = 0.0f;
 	float Zoomed_x = 0.0f;
@@ -32,6 +32,12 @@ private:
 	double Deg2;
 	float New_x2;
 	float New_y2;
+	//test
+	double Deg3;
+	float Hypot2; 
+	float turnx;
+	float turny;
+
 
 	float Zoom = 0.0f;
 	float ZoomRate = 0.0f;
@@ -43,7 +49,8 @@ private:
 	int Edge_Right;
 	int Edge_Top;
 	int Edge_Bottom;
-	//test code
+
+	// line rotation stuff
 	int dirivedx;
 	int dirivedy;
 	int dirivedx2;

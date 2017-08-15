@@ -49,12 +49,9 @@ private:
 	GroundMesh xlines0;
 	CubePeon Peon0;
 
-
-	
 	int x = 10000;
 	int y = 10000;
-	int x2 = 10000;
-	int y2 = 10000;
+	int speed;
 	float z = 30;
 	int Turn = 0;
 	/********************************/

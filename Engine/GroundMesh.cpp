@@ -20,6 +20,7 @@ void GroundMesh::Draw(Graphics& gfx)
 			{
 				y++;
 				y_Step = 0;
+		   
 			}
 		}
 		y = 0;
@@ -32,7 +33,7 @@ void GroundMesh::Draw(Graphics& gfx)
 		y += int(i);
 		for (x = 0; x < Graphics::ScreenWidth; x++)  // loops line printing
 		{
-			if (y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 	
+		    if (y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 	
 			{
 				gfx.PutPixel(x, y, c);     
 			}
@@ -41,6 +42,7 @@ void GroundMesh::Draw(Graphics& gfx)
 			{
 				y++;
 				y_Step = 0;
+			
 			}
 			
 		}
@@ -53,7 +55,7 @@ void GroundMesh::Draw(Graphics& gfx)
 	{
 		for (x = int(i); x > 0 ; x--)   // loops line printing
 		{
-			if (y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 				
+		    if (y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 				
 			{
 				gfx.PutPixel(x, y, c);     
 			}
@@ -62,6 +64,7 @@ void GroundMesh::Draw(Graphics& gfx)
 			{
 				y++;
 				y_Step = 0;
+			
 			}
 		}
 		y = 0;
@@ -83,6 +86,7 @@ void GroundMesh::Draw(Graphics& gfx)
 			{
 				y++;
 				y_Step = 0;
+		    
 			}
 
 		}

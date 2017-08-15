@@ -12,6 +12,9 @@ void CubePeon::Draw(Graphics & gfx)
             gfx.PutPixel(int(-New_x + Zoomed_x), int(-New_y + Zoomed_y) - i, c);  // left pillar
             gfx.PutPixel(int(New_x2 + Zoomed_x), int(New_y2 + Zoomed_y) - i, c);  // bottom pillar
             gfx.PutPixel(int(-New_x2 + Zoomed_x), int(-New_y2 + Zoomed_y) - i, c);  // top pillar
+
+			gfx.PutPixel(int(New_x + Zoomed_x +1), int(New_y + Zoomed_y + 1 ) - i, Colors::Red);
+			gfx.PutPixel(int(New_x2 + Zoomed_x +1 ), int(New_y2 + Zoomed_y +1 ) - i, Colors::Red);
 		}
 		
 		Lines(); // calls lines function
@@ -78,11 +81,14 @@ void CubePeon::CubeZoom(float z)
 
 } 
 
-void CubePeon::Location(int x2 , int y2)
+void CubePeon::SpeedIn(int speed)
 {
+	turnx = turnx * speed;
+	turny = turny * speed;
+	True_x += turnx;
+	True_y += turny;
 
-	True_x = x2;  // gets cubes actual location
-	True_y = y2;
+
 }
 
 void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
@@ -114,7 +120,14 @@ void CubePeon::Rotate(int Turn)
 	New_x2 = float((cos(Deg2) * Hypot) * 2);
 	New_y2 = float(sin(Deg2) * Hypot);
 
-	 
+	Deg3 = double(Turn) + 45;
+	if (Deg3 > 360)
+	{
+		Deg3 = 0 + (Deg3 - 360);
+	}
+	Deg3 = Deg3 * PI / 180;    // gets radians for trig function
+	turnx = float(cos(Deg3) * 10 * 2);
+	turny = float(sin(Deg3) * 10);
 }
 
 void CubePeon::Lines()
