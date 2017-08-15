@@ -55,7 +55,7 @@ private:
 	int y = 10000;
 	int x2 = 10000;
 	int y2 = 10000;
-	float z = 10;
+	float z = 30;
 	int Turn = 0;
 	/********************************/
 };

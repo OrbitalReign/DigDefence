@@ -108,7 +108,7 @@ void Game::UpdateModel()
 	xlines0.MoveMesh(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 
 	
-	Peon0.Location(x2, y2);
+	Peon0.Location(x2, y2);  
 	Peon0.Screen_Size( Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 	Peon0.CubeZoom(z);
 	Peon0.Rotate(Turn);
@@ -119,5 +119,10 @@ void Game::ComposeFrame()
 {
 	xlines0.Draw(gfx);
 	Peon0.Draw(gfx);
+
 	gfx.PutPixel( (Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4), Colors::Green ); // Zoom centre
+	gfx.PutPixel((Graphics::ScreenWidth / 2) + 3, (Graphics::ScreenWidth / 4), Colors::Green);
+	gfx.PutPixel((Graphics::ScreenWidth / 2) -3, (Graphics::ScreenWidth / 4), Colors::Green);
+	gfx.PutPixel((Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4) +3, Colors::Green);
+	gfx.PutPixel((Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4) -3, Colors::Green);
 }
