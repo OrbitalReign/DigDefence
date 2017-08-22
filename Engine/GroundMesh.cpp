@@ -2,8 +2,9 @@
 #include <math.h>
 
 void GroundMesh::Draw(Graphics& gfx)
-{ 
-	Color c( ZoomFade * 2, ZoomFade * 2, ZoomFade * 2);  // Darkens ground mesh as you zoom out so its not so washed out.
+{
+	// Darkens ground mesh as you zoom out so its not so washed out.
+	Color c( ZoomFade * 2, ZoomFade * 2, ZoomFade * 2);  
     																				   
     // lines from top of screen to bottom right
 
@@ -19,8 +20,7 @@ void GroundMesh::Draw(Graphics& gfx)
 			if (y_Step >= Mesh_Angle)
 			{
 				y++;
-				y_Step = 0;
-		   
+				y_Step = 0;	   
 			}
 		}
 		y = 0;
@@ -77,7 +77,7 @@ void GroundMesh::Draw(Graphics& gfx)
 		y += int(i);
 		for (x = Graphics::ScreenWidth - 1; x > 0; x--)   // loops line printing
 		{
-			if ( y < Graphics::ScreenHeight && y > 0)                                             // only prints in screen boundries 				  
+			if ( y < Graphics::ScreenHeight && y > 0)  // only prints in screen boundries 				  
 			{
 				gfx.PutPixel(x, y, c);    
 			}
@@ -108,8 +108,8 @@ void GroundMesh::MoveMesh(int Left, int Right, int Top, int Bottom)
 
 	
 	float temp_xL = float(Left % Top_Mesh_Spacing);
-	float temp_xR = float(Top_Mesh_Spacing - (Right % Top_Mesh_Spacing));     // divides screen boundry by the mesh spacing 
-	float temp_yLR = float(Top % Side_Mesh_Spacing);                          //and finds the remainder that should show on screen.
+	float temp_xR = float(Top_Mesh_Spacing - (Right % Top_Mesh_Spacing));  // divides screen boundry by the mesh spacing 
+	float temp_yLR = float(Top % Side_Mesh_Spacing);            //and finds the remainder that should show on screen.
 	
 // Left side Mesh 
 	 LeftSide = ((temp_xL / 2) - temp_yLR);   

@@ -1,5 +1,9 @@
 #include "CubePeon.h"
 
+#define PI 3.1415926536
+
+
+
 void CubePeon::Draw(Graphics & gfx)
 {
 	if (In_Frame_x && In_Frame_y)   // Draws if in frame
@@ -46,7 +50,6 @@ void CubePeon::CubeZoom(float z)
 {
 	  Zoom = z;
 	  ZoomRate = ( 50 / Zoom);
-	  Hypot = CubeWidth / ZoomRate;
 	  ZoomCubeHeight = int(CubeHeight / ZoomRate);
 
 	if (True_x < Frame::Focal_Point_x)            // zooms cube with mesh in x dim
@@ -87,8 +90,6 @@ void CubePeon::SpeedIn(int speed)
 	turny = turny * speed;
 	True_x += turnx;
 	True_y += turny;
-
-
 }
 
 void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
@@ -104,35 +105,42 @@ void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
 
 }
 
-void CubePeon::Rotate(int Turn)
+
+
+void CubePeon::Rotate(int * TablePointerx, int * TablePointery , int Turn )
 {
-	Deg = double(Turn);
-	Deg = Deg * PI / 180;    // gets radians for trig function
-	New_x = float((cos(Deg) * Hypot) * 2);
-	New_y = float(sin(Deg) * Hypot);
-
-	Deg2 = double(Turn) + 90 ;  // offsets by 90 degrees  
-	if (Deg2 > 360)
+	Deg =  (Turn);
+	Deg2 = (Turn)+90;
+	Deg3 = (Turn)+45;
+	if (Deg2 > 359)
 	{
-		Deg2 = 0 + ( Deg2 - 360);
+		Deg2 = 0 + (Deg2 - 359);
 	}
-	Deg2 = Deg2 * PI / 180;    // gets radians for trig function
-	New_x2 = float((cos(Deg2) * Hypot) * 2);
-	New_y2 = float(sin(Deg2) * Hypot);
-
-	Deg3 = double(Turn) + 45;
-	if (Deg3 > 360)
+	Deg3 = (Turn)+45;
+	if (Deg3 > 359)
 	{
-		Deg3 = 0 + (Deg3 - 360);
+		Deg3 = 0 + (Deg3 - 359);
 	}
-	Deg3 = Deg3 * PI / 180;    // gets radians for trig function
-	turnx = float(cos(Deg3) * 10 * 2);
-	turny = float(sin(Deg3) * 10);
+	const int * Xpoint = TablePointerx + Deg;
+	const int * Ypoint = TablePointery + Deg;  // Rotates corner of cube
+	 New_x = *Xpoint;
+	 New_y = *Ypoint;
+
+	const int * Xpoint1 = TablePointerx + Deg2;
+	const int * Ypoint1 = TablePointery + Deg2;  // Rotates adjacent corner of cube at 90 from first.
+	 New_x2 = *Xpoint1;
+	 New_y2 = *Ypoint1;
+
+	const int * Xpoint2 = TablePointerx + Deg3;
+	const int * Ypoint2 = TablePointery + Deg3;   // orientates front face of cube for movenment direction 
+	 turnx = *Xpoint2;
+	 turny = *Ypoint2;
+
 }
 
 void CubePeon::Lines()
 {
-	// gets the right triangle 
+	// gets the right angle triangle 
 	dirivedx = int(New_x2 - New_x);
 	dirivedy = int(New_y2 - New_y);            
 	dirivedx2 = int(-New_x2 - New_x);
@@ -156,4 +164,4 @@ void CubePeon::Lines()
 		
 }
 
- 
+

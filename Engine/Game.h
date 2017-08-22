@@ -26,6 +26,7 @@
 #include "GroundMesh.h"
 #include "CubePeon.h"
 #include "Frame.h"
+#include "RotationTable.h"
 
 class Game
 {
@@ -34,6 +35,7 @@ public:
 	Game( const Game& ) = delete;
 	Game& operator=( const Game& ) = delete;
 	void Go();
+	
 private:
 	void ComposeFrame();
 	void UpdateModel();
@@ -48,11 +50,14 @@ private:
 	Frame Zoom_Frame;             
 	GroundMesh xlines0;
 	CubePeon Peon0;
-
+	RotationTable Table1;
+	
+	
+	// test stuff
 	int x = 10000;
 	int y = 10000;
 	int speed;
-	float z = 30;
+	float z = 30.0f;
 	int Turn = 0;
 	/********************************/
 };
