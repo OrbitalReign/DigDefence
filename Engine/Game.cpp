@@ -115,7 +115,7 @@ void Game::UpdateModel()
 	Peon0.SpeedIn(speed);
 	Peon0.Screen_Size( Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 	Peon0.CubeZoom(z);
-    Peon0.Rotate(Table1.Array_xPoint,Table1.Array_yPoint, Turn);  // Gives address of Table1 array to Peons
+    Peon0.Rotate(Table1.Array_xPoint,Table1.Array_yPoint, Table1.DirectionArray_x,Table1.DirectionArray_y, Turn);  // Gives address of Table1 array to Peons
 	
 	
 

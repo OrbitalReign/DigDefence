@@ -15,7 +15,7 @@ public:
 	void CubeZoom(float z);
 	void SpeedIn(int speed);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
-	void Rotate(int * TablePointerx, int * TablePointery , int Turn);
+	void Rotate(int * TablePointerx, int * TablePointery , int * DirectionPointx, int * DirectionPointy, int Turn);
 	
 private:
 

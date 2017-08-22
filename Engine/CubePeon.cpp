@@ -60,13 +60,12 @@ void CubePeon::CubeZoom(float z)
 	else if (True_x > Frame::Focal_Point_x)
 	{
 		On_Screen_x = float(Edge_Right - True_x);
-			Zoomed_x = Graphics::ScreenWidth - (On_Screen_x / ZoomRate);
+	    Zoomed_x = Graphics::ScreenWidth - (On_Screen_x / ZoomRate);
 	}
 	else 
 	{
 		Zoomed_x = 400;
 	}
-
 	if (True_y < Frame::Focal_Point_y)         // zooms cube with mesh in y dim
 	{
 		On_Screen_y = float(True_y - Edge_Top);
@@ -88,8 +87,8 @@ void CubePeon::SpeedIn(int speed)
 {
 	turnx = turnx * speed;
 	turny = turny * speed;
-	True_x += turnx;
-	True_y += turny;
+	True_x += turnx / 2;
+	True_y += turny / 2;
 }
 
 void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
@@ -97,7 +96,6 @@ void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
 	//  gets the zoomed screen boundary
 	In_Frame_x = (True_x - 30 > Left && True_x + 30  < Right);   // checks true x is in frame
 	In_Frame_y = (True_y - 50  > Top && True_y + 30  < Bottom);   // checks true y is in frame
-
 	Edge_Left  = Left;
 	Edge_Right = Right;
 	Edge_Top = Top;
@@ -107,19 +105,18 @@ void CubePeon::Screen_Size(int Left, int Right, int Top, int Bottom)
 
 
 
-void CubePeon::Rotate(int * TablePointerx, int * TablePointery , int Turn )
+void CubePeon::Rotate(int * TablePointerx, int * TablePointery, int * DirectionPointx, int * DirectionPointy, int Turn )
 {
 	Deg =  (Turn);
 	Deg2 = (Turn)+90;
 	Deg3 = (Turn)+45;
 	if (Deg2 > 359)
 	{
-		Deg2 = 0 + (Deg2 - 359);
+		Deg2 = 0 + (Deg2 - 359); // Loops Deg2 around 360 degrees
 	}
-	Deg3 = (Turn)+45;
-	if (Deg3 > 359)
+	if (Deg3 > 359)       
 	{
-		Deg3 = 0 + (Deg3 - 359);
+		Deg3 = 0 + (Deg3 - 359);        // Loops Deg3 around 360 degrees
 	}
 	const int * Xpoint = TablePointerx + Deg;
 	const int * Ypoint = TablePointery + Deg;  // Rotates corner of cube
@@ -131,8 +128,8 @@ void CubePeon::Rotate(int * TablePointerx, int * TablePointery , int Turn )
 	 New_x2 = *Xpoint1;
 	 New_y2 = *Ypoint1;
 
-	const int * Xpoint2 = TablePointerx + Deg3;
-	const int * Ypoint2 = TablePointery + Deg3;   // orientates front face of cube for movenment direction 
+	const int * Xpoint2 = DirectionPointx + Deg3;
+	const int * Ypoint2 = DirectionPointy + Deg3;   // orientates front face of cube for movenment direction 
 	 turnx = *Xpoint2;
 	 turny = *Ypoint2;
 
