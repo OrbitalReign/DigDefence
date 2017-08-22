@@ -49,7 +49,7 @@ private:
 	/*  User Variables */
 	Frame Zoom_Frame;             
 	GroundMesh xlines0;
-	CubePeon Peon0;
+	CubePeon Peon[200];
 	RotationTable Table1;
 	
 	
@@ -59,5 +59,7 @@ private:
 	int speed;
 	float z = 30.0f;
 	int Turn = 0;
+	int cubex = 10000;
+	int cubey = 10000;
 	/********************************/
 };

@@ -16,7 +16,8 @@ public:
 	void SpeedIn(int speed);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
 	void Rotate(int * TablePointerx, int * TablePointery , int * DirectionPointx, int * DirectionPointy, int Turn);
-	
+	void SpawnSet(int x, int y);
+	void Killed(); // add health stuff to call this <<<<
 private:
 
 	void Lines();
@@ -26,6 +27,7 @@ private:
 	// world location
 	float True_x = 10000; 
 	float True_y = 10000;
+	bool Spawned = false;
 
 	float On_Screen_x = 0.0f;
 	float On_Screen_y = 0.0f;

@@ -135,6 +135,21 @@ void CubePeon::Rotate(int * TablePointerx, int * TablePointery, int * DirectionP
 
 }
 
+void CubePeon::SpawnSet(int x, int y)
+{
+	if (!Spawned)
+	{
+		True_x = x;
+		True_y = y;
+		Spawned = true;   // Cube has spawned and cant be reset till death.
+	}
+}
+
+void CubePeon::Killed() // add health stuff to call this <<<<
+{
+	Spawned = false;   // Cube is dead and can be respawned.
+}
+
 void CubePeon::Lines()
 {
 	// gets the right angle triangle 
