@@ -4,7 +4,7 @@
 class RotationTable 
 {
 public:
-	 void ZoomIn(int In_d);
+	 void ZoomIn(float In_d);
 	 static constexpr int RotationAccuracy = 360; // degrees of accuracy for lookup table.
 
      int RotationArray_x[RotationAccuracy];  // lookup table array
@@ -22,7 +22,7 @@ private:
 	float CubeWidth = 12.5f;
 	float ZoomRate;
 	float Hypot;
-	int Zoom;
+	float Zoom;
 	double Degrees = 0;
 
 };

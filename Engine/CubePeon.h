@@ -25,8 +25,8 @@ private:
 private:
 
 	// world location
-	float True_x = 10000; 
-	float True_y = 10000;
+	int True_x = 10000; 
+	int True_y = 10000;
 	bool Spawned = false;
 
 	float On_Screen_x = 0.0f;
@@ -51,14 +51,14 @@ private:
 	float CubeHeight = 25.0f;  // sets height of cube
 	int ZoomCubeHeight;
 
-	float New_x;
-	float New_y;
+	int New_x;
+	int New_y;
 	int Deg2;
-	float New_x2;
-	float New_y2;
+	int New_x2;
+	int New_y2;
 	int Deg3; 
-	float turnx;
-	float turny;
+	int turnx;
+	int turny;
 
 	// line rotation stuff
 	int dirivedx;

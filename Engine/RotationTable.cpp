@@ -2,9 +2,9 @@
 #include <math.h>
 #define PI 3.1415926536
 
-void RotationTable::ZoomIn(int In_z)
+void RotationTable::ZoomIn(float In_z)
 {
-	ZoomRate = float(50.0f / In_z);
+	ZoomRate = (50.0f / In_z);
 	Hypot = CubeWidth / ZoomRate;
 	if ( In_z != Zoom)
 	{

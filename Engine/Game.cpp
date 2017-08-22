@@ -134,7 +134,8 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	xlines0.Draw(gfx);   //  <<<<<<   wayyyy too laggy 
+	xlines0.Draw(gfx); 
+
 	for (int i = 0; i < 200; i++)
 	{
 		Peon[i].Draw(gfx);
