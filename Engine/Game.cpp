@@ -156,13 +156,11 @@ void Game::UpdateModel()
 		}
 	}
 
-	
-	
 }
 
 void Game::ComposeFrame()
 {
-	xlines0.Draw(gfx);  // <<<<  Laggy in debug, comment out for testing if need be
+	//xlines0.Draw(gfx);  // <<<<  Laggy in debug, comment out for testing if need be
 
 	for (int i = 0; i < Ncubes; i++)
 	{

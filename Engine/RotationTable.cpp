@@ -31,7 +31,7 @@ void RotationTable::RotateCalc()
 		int Calc_vx;
 		int Calc_vy;
 		Degrees = i * PI / 180;    // gets radians for trig function
-		Calc_vx = int((cos(Degrees) * CubeWidth) * 2);  // x multiplied by 2 to give an elipse rotation to match view angle.
+		Calc_vx = int((cos(Degrees) * CubeWidth) *2 );  // x multiplied by 2 to give an elipse rotation to match view angle.
 		Calc_vy = int(sin(Degrees) * CubeWidth);
 		DirectionArray_x[i] = Calc_vx;
 		DirectionArray_y[i] = Calc_vy;

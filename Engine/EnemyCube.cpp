@@ -105,16 +105,32 @@ void EnemyCube::Screen_Size(int Left, int Right, int Top, int Bottom)
 
 void EnemyCube::Rotate(int * TablePointerx, int * TablePointery, int * DirectionPointx, int * DirectionPointy, int Turn)
 {
-	Deg = (Turn);
-	Deg2 = (Turn)+90;
+	Deg = (-Degrees)+225;
+	Deg2 = (-Degrees)+315;
 	Deg3 = (-Degrees)+200;   // working? <<<<<<
+	if (Deg > 359)
+	{
+		Deg = 0 + (Deg - 359); // Loops Deg around 360 degrees
+	}
+	else if (Deg < 0)
+	{
+		Deg = 359 - (Deg + 359 );
+	}
 	if (Deg2 > 359)
 	{
 		Deg2 = 0 + (Deg2 - 359); // Loops Deg2 around 360 degrees
 	}
+	else if (Deg2 < 0)
+	{
+		Deg2 = 359 - (Deg2 + 359);
+	}
 	if (Deg3 > 359)
 	{
 		Deg3 = 0 + (Deg3 - 359);        // Loops Deg3 around 360 degrees
+	}
+	else if (Deg3 < 0)
+	{
+		Deg3 = 359 - (Deg3 + 359);
 	}
 	const int * Xpoint = TablePointerx + Deg;
 	const int * Ypoint = TablePointery + Deg;  // Rotates corner of cube
