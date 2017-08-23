@@ -27,6 +27,8 @@
 #include "CubePeon.h"
 #include "Frame.h"
 #include "RotationTable.h"
+#include "EnemyCube.h"
+#include <random>
 
 class Game
 {
@@ -47,12 +49,17 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables */
+	static constexpr int Ncubes = 500;
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xDist;
+	std::uniform_int_distribution<int> yDist;
 	Frame Zoom_Frame;             
 	GroundMesh xlines0;
-	CubePeon Peon[200];
+	CubePeon Peon[Ncubes];
+	EnemyCube Enemy[Ncubes];
 	RotationTable Table1;
-	
-	
+		
 	// test stuff
 	int x = 10000;
 	int y = 10000;
@@ -61,5 +68,6 @@ private:
 	int Turn = 0;
 	int cubex = 10000;
 	int cubey = 10000;
+	
 	/********************************/
 };

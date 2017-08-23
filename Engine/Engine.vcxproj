@@ -141,6 +141,7 @@
     <ClInclude Include="Colors.h" />
     <ClInclude Include="CubePeon.h" />
     <ClInclude Include="DXErr.h" />
+    <ClInclude Include="EnemyCube.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="CubePeon.cpp" />
     <ClCompile Include="DXErr.cpp" />
+    <ClCompile Include="EnemyCube.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />

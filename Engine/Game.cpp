@@ -22,20 +22,19 @@
 #include "Game.h"
 
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd )
+	wnd(wnd),
+	gfx(wnd),
+	rng(rd()),
+	xDist(1000, 15000),
+	yDist(1000, 15000)
+
 {
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < Ncubes; i++)
 	{		
-		Peon[i].SpawnSet( cubex , cubey );
-		cubey += 60;
-		if (cubey > 10600)
-		{
-			cubex += 60;
-			cubey = 10000;
-		}
+		Peon[i].SpawnSet( xDist(rng) , yDist(rng));
+		Enemy[i].SpawnSet(xDist(rng), yDist(rng));
 	}
 }
 
@@ -54,10 +53,11 @@ void Game::UpdateModel()
 	{
 		speed = 1; 
 	}
-	if (wnd.kbd.KeyIsPressed('S'))
+	else if (wnd.kbd.KeyIsPressed('S'))
 	{
 		speed = -1;
 	}
+
 	if (wnd.kbd.KeyIsPressed('A'))
 	{
 		Turn -= 3;
@@ -120,25 +120,54 @@ void Game::UpdateModel()
 	xlines0.ZoomMesh(z);
 	xlines0.MoveMesh(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 
-	for (int i = 0; i < 200; i++)
+
+	for (int i = 0; i < Ncubes; i++)
 	{
-		Peon[i].SpeedIn(speed);
+		
 		Peon[i].Screen_Size(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 		Peon[i].CubeZoom(z);
-		Peon[i].Rotate(Table1.Array_xPoint, Table1.Array_yPoint, Table1.DirectionArray_x, Table1.DirectionArray_y, Turn);  // Gives address of Table1 array to Peons
+		// Gives address of Table1 array to Peons
+		Peon[i].Rotate(Table1.Array_xPoint, Table1.Array_yPoint, Table1.DirectionArray_x, Table1.DirectionArray_y, Turn); 
+		Peon[i].SpeedIn(speed);
+	}
+	for (int i = 0; i < Ncubes; i++)
+	{
+		Enemy[i].Target();
+		
+		Enemy[i].Screen_Size(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
+		Enemy[i].CubeZoom(z);
+		// Gives address of Table1 array to Enemys
+		Enemy[i].Rotate(Table1.Array_xPoint, Table1.Array_yPoint, Table1.DirectionArray_x, Table1.DirectionArray_y, Turn);
+		Enemy[i].SpeedIn(speed);
 	}
 	
+	for (int i = 0; i < Ncubes; i++)    // Enemy kill loop
+	{
+		int Enemylocx = 0;
+	    int Enemylocy = 0;
+		Enemy[i].Getloc(Enemylocx, Enemylocy);
+		if (Enemylocx > 10000 - 100 &&
+			Enemylocx < 10000 + 100 &&
+			Enemylocy > 10000 - 100 &&
+			Enemylocy < 10000 + 100)
+		{
+			Enemy[i].Killed();
+			Enemy[i].SpawnSet( xDist(rng), yDist(rng)) ; 
+		}
+	}
 
-
+	
+	
 }
 
 void Game::ComposeFrame()
 {
-	xlines0.Draw(gfx); 
+	xlines0.Draw(gfx);  // <<<<  Laggy in debug, comment out for testing if need be
 
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < Ncubes; i++)
 	{
 		Peon[i].Draw(gfx);
+		Enemy[i].Draw(gfx);
 	}
 
 	gfx.PutPixel( (Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4), Colors::Green ); // Zoom centre
