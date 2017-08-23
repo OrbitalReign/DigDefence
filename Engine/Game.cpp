@@ -33,7 +33,7 @@ Game::Game(MainWindow& wnd)
 {
 	for (int i = 0; i < Ncubes; i++)
 	{		
-		Peon[i].SpawnSet( xDist(rng) , yDist(rng));
+
 		Enemy[i].SpawnSet(xDist(rng), yDist(rng));
 	}
 }
@@ -121,7 +121,7 @@ void Game::UpdateModel()
 	xlines0.MoveMesh(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 
 
-	for (int i = 0; i < Ncubes; i++)
+	for (int i = 0; i < Ncubes2; i++)
 	{
 		
 		Peon[i].Screen_Size(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
@@ -166,8 +166,11 @@ void Game::ComposeFrame()
 
 	for (int i = 0; i < Ncubes; i++)
 	{
-		Peon[i].Draw(gfx);
 		Enemy[i].Draw(gfx);
+	}
+	for (int i = 0; i < Ncubes2; i++)
+	{
+		Peon[i].Draw(gfx);
 	}
 
 	gfx.PutPixel( (Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4), Colors::Green ); // Zoom centre

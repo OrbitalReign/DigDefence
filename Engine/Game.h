@@ -49,7 +49,8 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables */
-	static constexpr int Ncubes = 500;
+	static constexpr int Ncubes = 3000;
+	static constexpr int Ncubes2 = 1;
 	std::random_device rd;
 	std::mt19937 rng;
 	std::uniform_int_distribution<int> xDist;
