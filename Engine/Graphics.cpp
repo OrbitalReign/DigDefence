@@ -40,6 +40,20 @@ namespace FramebufferShaders
 
 using Microsoft::WRL::ComPtr;
 
+int Graphics::custom_min(const int a, const int b, const int c)
+{
+	int mintemp = a < b ? a : b;
+	int minreturn = c < mintemp ? c : mintemp;
+	return minreturn;
+}
+
+int Graphics::custom_max(const int a, const int b, const int c)
+{
+	int maxtemp = a > b ? a : b;
+	int maxreturn = c > maxtemp ? c : maxtemp;
+	return maxreturn;
+}
+
 Graphics::Graphics( HWNDKey& key )
 {
 	assert( key.hWnd != nullptr );
@@ -238,6 +252,135 @@ Graphics::Graphics( HWNDKey& key )
 	// allocate memory for sysbuffer (16-byte aligned for faster access)
 	pSysBuffer = reinterpret_cast<Color*>( 
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
+}
+
+void Graphics::half_Screen_tri(const Vec v1, const Vec v2, const Vec v3, Color c)
+{
+
+	// 28.4 fixed point coords
+	const int x1 = (int)round(16.0f * v1.vx);
+	const int x2 = (int)round(16.0f * v2.vx);
+	const int x3 = (int)round(16.0f * v3.vx);
+
+	const int y1 = (int)round(16.0f * v1.vy);
+	const int y2 = (int)round(16.0f * v2.vy);
+	const int y3 = (int)round(16.0f * v3.vy);
+	// deltas
+	const int DX12 = x1 - x2;
+	const int DX23 = x2 - x3;
+	const int DX31 = x3 - x1;
+
+	const int DY12 = y1 - y2;
+	const int DY23 = y2 - y3;
+	const int DY31 = y3 - y1;
+
+	// fixed point deltas 
+	const int FDX12 = DX12 << 4;
+	const int FDX23 = DX23 << 4;
+	const int FDX31 = DX31 << 4;
+
+	const int FDY12 = DY12 << 4;
+	const int FDY23 = DY23 << 4;
+	const int FDY31 = DY31 << 4;
+
+	// bounding rect 
+	int minx = (custom_min(x1, x2, x3) + 0xf) >> 4;
+	int maxx = (custom_max(x1, x2, x3) + 0xf) >> 4;
+	int miny = (custom_min(y1, y2, y3) + 0xf) >> 4;
+	int maxy = (custom_max(y1, y2, y3) + 0xf) >> 4;
+
+	// check block size 
+	const int quad = 8;
+
+	// start in corner of block
+	minx &= ~(quad - 1);
+	miny &= ~(quad - 1);
+
+	// half edge constants 
+	int C1 = DY12 * x1 - DX12 * y1;
+	int C2 = DY23 * x2 - DX23 * y2;
+	int C3 = DY31 * x3 - DX31 * y3;
+
+	// correct for fill convention 
+	if (DY12 < 0 || (DY12 == 0 && DX12 > 0)) C1++;
+	if (DY23 < 0 || (DY23 == 0 && DX23 > 0)) C2++;
+	if (DY31 < 0 || (DY31 == 0 && DX31 > 0)) C3++;
+
+	// loop though blocks of quad
+
+	for (int y = miny; y < maxy; y += quad)
+	{
+		for (int x = minx; x < maxx; x += quad)
+		{
+			// corners of block check
+			int X0 = x << 4;
+			int X1 = (x + quad - 1) << 4;
+			int Y0 = y << 4;
+			int Y1 = (y + quad - 1) << 4;
+
+			// evaluate halfspace functions
+			bool a00 = C1 + DX12 * Y0 - DY12 * X0 > 0;
+			bool a10 = C1 + DX12 * Y0 - DY12 * X1 > 0;
+			bool a01 = C1 + DX12 * Y1 - DY12 * X0 > 0;
+			bool a11 = C1 + DX12 * Y1 - DY12 * X1 > 0;
+			int a = (a00 << 0) | (a10 << 1) | (a01 << 2) | (a11 << 3);
+
+			bool b00 = C2 + DX23 * Y0 - DY23 * X0 > 0;
+			bool b10 = C2 + DX23 * Y0 - DY23 * X1 > 0;
+			bool b01 = C2 + DX23 * Y1 - DY23 * X0 > 0;
+			bool b11 = C2 + DX23 * Y1 - DY23 * X1 > 0;
+			int b = (b00 << 0) | (b10 << 1) | (b01 << 2) | (b11 << 3);
+
+			bool c00 = C3 + DX31 * Y0 - DY31 * X0 > 0;
+			bool c10 = C3 + DX31 * Y0 - DY31 * X1 > 0;
+			bool c01 = C3 + DX31 * Y1 - DY31 * X0 > 0;
+			bool c11 = C3 + DX31 * Y1 - DY31 * X1 > 0;
+			int c = (c00 << 0) | (c10 << 1) | (c01 << 2) | (c11 << 3);
+
+			// skip block when outside an edge
+			if (a == 0x0 || b == 0x0 || c == 0x0) continue;
+			// accept whole block when totally covered
+			if (a == 0xf && b == 0xf && c == 0xf)
+			{
+				for (int iy = 0; iy < quad; iy++)
+				{
+					for (int ix = x; ix < x + quad; ix++)
+					{
+						PutPixel(ix, iy + y, Colors::Green); // adds black mask to building silhouette
+					}
+				}
+			}
+			else  // partially coverd block
+			{
+				int CY1 = C1 + DX12 * Y0 - DY12 * X0;
+				int CY2 = C2 + DX23 * Y0 - DY23 * X0;
+				int CY3 = C3 + DX31 * Y0 - DY31 * X0;
+
+				for (int iy = y; iy < y + quad; iy++)
+				{
+					int CX1 = CY1;
+					int CX2 = CY2;
+					int CX3 = CY3;
+
+					for (int ix = x; ix < x + quad; ix++)
+					{
+						if (CX1 > 0 && CX2 > 0 && CX3 > 0)
+						{
+							PutPixel(ix, iy, Colors::Green); // adds black mask to building silhouette
+						}
+
+						CX1 -= FDY12;
+						CX2 -= FDY23;
+						CX3 -= FDY31;
+					}
+
+					CY1 += FDX12;
+					CY2 += FDX23;
+					CY3 += FDX31;
+				}
+			}
+		}
+	}
 }
 
 Graphics::~Graphics()

@@ -27,6 +27,12 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
+	v1.vx = 100;
+	v1.vy = 100;
+	v2.vx = 200;
+	v2.vy = 200;
+	v3.vx = 300;
+	v3.vy = 200;
 }
 
 void Game::Go()
@@ -41,19 +47,19 @@ void Game::UpdateModel()
 {
 	if (wnd.kbd.KeyIsPressed('W'))
 	{
-		y2 -= 2;
+		v1.vy -= 2;
 	}
 	if (wnd.kbd.KeyIsPressed('S'))
 	{
-		y2 += 2;
+		v1.vy += 2;
 	}
 	if (wnd.kbd.KeyIsPressed('A'))
 	{
-		Turn -= 1;
+		v1.vx -= 1;
 	}
 	if (wnd.kbd.KeyIsPressed('D'))
 	{
-		Turn += 1;
+		v1.vx += 1;
 	}
 
 		if (Turn > 360)
@@ -67,33 +73,42 @@ void Game::UpdateModel()
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y -= 10;
+		v2.vy -= 2;
 	
 	}
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		y += 10;
+		v2.vy += 2;
 
 
 	}
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		x -= 10;
+	    v2.vx -=2;
 
 	}
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		x += 10;
+		v2.vx += 2;
 
 	}
-		if (wnd.kbd.KeyIsPressed('Z'))
+		if (wnd.kbd.KeyIsPressed('T'))
 		{
-			z += .1;
+			v3.vy -= 2;
 		}
-		if (wnd.kbd.KeyIsPressed('X'))
+		if (wnd.kbd.KeyIsPressed('G'))
 		{
-			z -= .1;
+			v3.vy += 2;
 		}
+		if (wnd.kbd.KeyIsPressed('F'))
+		{
+			v3.vx -= 2;
+		}
+		if (wnd.kbd.KeyIsPressed('H'))
+		{
+			v3.vx += 2;
+		}
+		
 				if (z > 50)
 			{
 				z = 50;   // stops zooming in too far
@@ -117,7 +132,10 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	xlines0.Draw(gfx);
+	//xlines0.Draw(gfx);
 	Peon0.Draw(gfx);
+
+	gfx.half_Screen_tri(v1 ,v2 ,v3, Colors::Green);  // tests <<<<<<<<<<
+
 	gfx.PutPixel( (Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4), Colors::Green ); // Zoom centre
 }

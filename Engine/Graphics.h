@@ -23,6 +23,7 @@
 #include <wrl.h>
 #include "ChiliException.h"
 #include "Colors.h"
+#include "Vector.h"
 
 class Graphics
 {
@@ -45,6 +46,11 @@ private:
 		float x,y,z;		// position
 		float u,v;			// texcoords
 	};
+
+	// custom min max opperation
+	int custom_min(const int a, const int b, const int c);
+	int custom_max(const int a, const int b, const int c);
+
 public:
 	Graphics( class HWNDKey& key );
 	Graphics( const Graphics& ) = delete;
@@ -57,10 +63,8 @@ public:
 	}
 	void PutPixel( int x,int y,Color c );
 	void DrawRect( int x0,int y0,int x1,int y1,Color c );
-	void DrawRectDim( int x0,int y0,int width,int height,Color c )
-	{
-		DrawRect( x0,y0,x0 + width,y0 + height,c );
-	}
+	void half_Screen_tri(const Vec v1, const Vec v2, const Vec v3 , Color c);
+
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

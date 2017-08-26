@@ -26,6 +26,7 @@
 #include "GroundMesh.h"
 #include "CubePeon.h"
 #include "Frame.h"
+#include "Vector.h"
 
 class Game
 {
@@ -48,6 +49,8 @@ private:
 	Frame Zoom_Frame;             
 	GroundMesh xlines0;
 	CubePeon Peon0;
+	Vec v1,v2,v3;
+	
 
 
 	
