@@ -5,19 +5,17 @@
 
 
 
-
-
-class CubePeon
+class EnemyCube
 {
 public:
- 
 	void Draw(Graphics& gfx);
 	void CubeZoom(float z);
 	void SpeedIn(int speed);
 	void Screen_Size(int Left, int Right, int Top, int Bottom);
-	void Rotate(int * TablePointerx, int * TablePointery , int * DirectionPointx, int * DirectionPointy, int Turn);
+	void Rotate(int * TablePointerx, int * TablePointery, int * DirectionPointx, int * DirectionPointy, int Turn);
 	void SpawnSet(int x, int y);
 	void Killed(); // add health stuff to call this <<<<
+	void Getloc( int& x, int& y)const ;
 	void Target();
 private:
 
@@ -26,7 +24,7 @@ private:
 private:
 
 	// world location
-	int True_x = 10000; 
+	int True_x = 10000;
 	int True_y = 10000;
 	bool Spawned = false;
 
@@ -35,7 +33,7 @@ private:
 	float Zoomed_x = 0.0f;
 	float Zoomed_y = 0.0f;
 
-    float Zoom = 0.0f;
+	float Zoom = 0.0f;
 	float ZoomRate = 0.0f;
 
 	bool In_Frame_x = false;
@@ -57,9 +55,10 @@ private:
 	int Deg2;
 	int New_x2;
 	int New_y2;
-	int Deg3; 
+	int Deg3;
 	int turnx;
 	int turny;
+	int Degrees;
 
 	// line rotation stuff
 	int dirivedx;
@@ -76,5 +75,4 @@ private:
 	float liney;
 	float linex2;
 	float liney2;
-
 };

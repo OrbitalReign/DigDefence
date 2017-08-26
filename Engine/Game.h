@@ -26,7 +26,9 @@
 #include "GroundMesh.h"
 #include "CubePeon.h"
 #include "Frame.h"
-#include "Vector.h"
+#include "RotationTable.h"
+#include "EnemyCube.h"
+#include <random>
 
 class Game
 {
@@ -35,6 +37,7 @@ public:
 	Game( const Game& ) = delete;
 	Game& operator=( const Game& ) = delete;
 	void Go();
+	
 private:
 	void ComposeFrame();
 	void UpdateModel();
@@ -46,19 +49,26 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables */
+	static constexpr int Ncubes = 3000;
+	static constexpr int Ncubes2 = 1;
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xDist;
+	std::uniform_int_distribution<int> yDist;
 	Frame Zoom_Frame;             
 	GroundMesh xlines0;
-	CubePeon Peon0;
-	Vec v1,v2,v3;
-	
-
-
-	
+	CubePeon Peon[Ncubes];
+	EnemyCube Enemy[Ncubes];
+	RotationTable Table1;
+		
+	// test stuff
 	int x = 10000;
 	int y = 10000;
-	int x2 = 10000;
-	int y2 = 10000;
-	float z = 10;
+	int speed;
+	float z = 30.0f;
 	int Turn = 0;
+	int cubex = 10000;
+	int cubey = 10000;
+	
 	/********************************/
 };

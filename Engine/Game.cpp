@@ -22,17 +22,20 @@
 #include "Game.h"
 
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd )
+	wnd(wnd),
+	gfx(wnd),
+	rng(rd()),
+	xDist(1000, 15000),
+	yDist(1000, 15000)
+
 {
-	v1.vx = 100;
-	v1.vy = 100;
-	v2.vx = 200;
-	v2.vy = 200;
-	v3.vx = 300;
-	v3.vy = 200;
+	for (int i = 0; i < Ncubes; i++)
+	{		
+
+		Enemy[i].SpawnSet(xDist(rng), yDist(rng));
+	}
 }
 
 void Game::Go()
@@ -45,97 +48,132 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	speed = 0;
 	if (wnd.kbd.KeyIsPressed('W'))
 	{
-		v1.vy -= 2;
+		speed = 1; 
 	}
-	if (wnd.kbd.KeyIsPressed('S'))
+	else if (wnd.kbd.KeyIsPressed('S'))
 	{
-		v1.vy += 2;
+		speed = -1;
 	}
+
 	if (wnd.kbd.KeyIsPressed('A'))
 	{
-		v1.vx -= 1;
+		Turn -= 3;
 	}
 	if (wnd.kbd.KeyIsPressed('D'))
 	{
-		v1.vx += 1;
+		Turn += 3;
+	}
+	if (wnd.kbd.KeyIsPressed('H'))   // centers screen back at home.
+	{
+		x = 10000;
+		y = 10000;
 	}
 
-		if (Turn > 360)
+		if (Turn > 359)  // keeps degrees at 0 - 360 
 		{
 			Turn = 0;
 		}
 		else if (Turn < 0)
 		{
-			Turn = 360;
+			Turn = 359;
 		}
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		v2.vy -= 2;
-	
+		y -= 10;	
 	}
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		v2.vy += 2;
-
-
+		y += 10;
 	}
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-	    v2.vx -=2;
-
+		x -= 10;
 	}
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		v2.vx += 2;
-
+		x += 10;
 	}
-		if (wnd.kbd.KeyIsPressed('T'))
+		if (wnd.kbd.KeyIsPressed('Z'))
 		{
-			v3.vy -= 2;
+			z += 1;
 		}
-		if (wnd.kbd.KeyIsPressed('G'))
+		if (wnd.kbd.KeyIsPressed('X'))
 		{
-			v3.vy += 2;
+			z -= 1;
 		}
-		if (wnd.kbd.KeyIsPressed('F'))
+	    if (z > 50)
 		{
-			v3.vx -= 2;
+			z = 50;   // stops zooming in too far
 		}
-		if (wnd.kbd.KeyIsPressed('H'))
+		else if (z < 10)
 		{
-			v3.vx += 2;
+			z = 10;    // stops zooming out too far
 		}
-		
-				if (z > 50)
-			{
-				z = 50;   // stops zooming in too far
-			}
-			else if (z < 10)
-			{
-				z = 10;    // stops zooming out too far
-			}
-			
+	
+
+    Table1.ZoomIn(z);  // Modifies table to adjust for zoom
     Zoom_Frame.Frame_Set(x, y, z);
 	xlines0.ZoomMesh(z);
 	xlines0.MoveMesh(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
 
+
+	for (int i = 0; i < Ncubes2; i++)
+	{
+		
+		Peon[i].Screen_Size(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
+		Peon[i].CubeZoom(z);
+		// Gives address of Table1 array to Peons
+		Peon[i].Rotate(Table1.Array_xPoint, Table1.Array_yPoint, Table1.DirectionArray_x, Table1.DirectionArray_y, Turn); 
+		Peon[i].SpeedIn(speed);
+	}
+	for (int i = 0; i < Ncubes; i++)
+	{
+		Enemy[i].Target();
+		
+		Enemy[i].Screen_Size(Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
+		Enemy[i].CubeZoom(z);
+		// Gives address of Table1 array to Enemys
+		Enemy[i].Rotate(Table1.Array_xPoint, Table1.Array_yPoint, Table1.DirectionArray_x, Table1.DirectionArray_y, Turn);
+		Enemy[i].SpeedIn(speed);
+	}
 	
-	Peon0.Location(x2, y2);
-	Peon0.Screen_Size( Zoom_Frame.Get_Left(), Zoom_Frame.Get_Right(), Zoom_Frame.Get_Top(), Zoom_Frame.Get_Bottom());
-	Peon0.CubeZoom(z);
-	Peon0.Rotate(Turn);
-	
+	for (int i = 0; i < Ncubes; i++)    // Enemy kill loop
+	{
+		int Enemylocx = 0;
+	    int Enemylocy = 0;
+		Enemy[i].Getloc(Enemylocx, Enemylocy);
+		if (Enemylocx > 10000 - 100 &&
+			Enemylocx < 10000 + 100 &&
+			Enemylocy > 10000 - 100 &&
+			Enemylocy < 10000 + 100)
+		{
+			Enemy[i].Killed();
+			Enemy[i].SpawnSet( xDist(rng), yDist(rng)) ; 
+		}
+	}
+
 }
 
 void Game::ComposeFrame()
 {
-	//xlines0.Draw(gfx);
-	Peon0.Draw(gfx);
+	//xlines0.Draw(gfx);  // <<<<  Laggy in debug, comment out for testing if need be
 
-	gfx.half_Screen_tri(v1 ,v2 ,v3, Colors::Green);  // tests <<<<<<<<<<
+	for (int i = 0; i < Ncubes; i++)
+	{
+		Enemy[i].Draw(gfx);
+	}
+	for (int i = 0; i < Ncubes2; i++)
+	{
+		Peon[i].Draw(gfx);
+	}
 
 	gfx.PutPixel( (Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4), Colors::Green ); // Zoom centre
+	gfx.PutPixel((Graphics::ScreenWidth / 2) + 3, (Graphics::ScreenWidth / 4), Colors::Green);
+	gfx.PutPixel((Graphics::ScreenWidth / 2) -3, (Graphics::ScreenWidth / 4), Colors::Green);
+	gfx.PutPixel((Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4) +3, Colors::Green);
+	gfx.PutPixel((Graphics::ScreenWidth / 2), (Graphics::ScreenWidth / 4) -3, Colors::Green);
 }
