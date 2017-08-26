@@ -4,9 +4,6 @@
 #include "RotationTable.h"
 
 
-
-
-
 class CubePeon
 {
 public:
